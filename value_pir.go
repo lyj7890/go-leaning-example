@@ -24,11 +24,12 @@ func (a *BB) Print(name string) {
 }
 func main() {
 	//值传递，不能修改字段
-	a := AA{Name: "pj"}
+	a := &AA{Name: "pj"}
 	a.Print("test")
 	fmt.Println(a.Name)
 	//引用传递，可以修改字段
 	b := BB{Name: "pj"}
 	b.Print("test")
 	fmt.Println(b.Name)
+
 }

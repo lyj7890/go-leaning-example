@@ -2,21 +2,30 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
 func main() {
 	fmt.Println("main goroutine run")
-	n := 10
-	for i := 0; i < n; i++ {
-		go func() {
-			fmt.Println(i, "goroutine running")
-			for {}
-		}()
+	ch := make(chan int)
+	go func() {
+		for i := 0; i < 2; i++ {
+			ch <- i
+		}
+		close(ch)
+	}()
+
+	for{
+		i,ok := <- ch
+		if !ok {
+			fmt.Println("channel close")
+			break
+		}
+		fmt.Println(i,ok)
 	}
-	for {
-		fmt.Println("in main goroutine")
-		time.Sleep(time.Second)
-	}
+
+
+	//for i := range ch {
+	//	fmt.Println(i)
+	//}
 
 }
